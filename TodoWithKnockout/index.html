@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+        <title>ToDo with Knock-out and Bootstrap</title>
+
+		<link rel="stylesheet" href="css/bootstrap.css">
+			
+		<script src="http://code.jquery.com/jquery.js"></script>
+		<script type="text/javascript" src="js/bootstrap.js"></script>
+		<script type='text/javascript' src='js/knockout-2.3.0.debug.js'></script>
+
+	</head>
+    <body>
+		<div class="row">
+			<div class="hero-unit">
+				<h1>Simplest ToDo</h1>
+				<p>With only BootStrap & Knockout</p>
+			</div>
+		</div>
+		<div class="container">
+			<div class="row">
+				<div class="span2"></div>
+				<div class="span8">
+					<div class="page-header">
+						<h1>Add Tasks</h1>
+					</div>
+					<form data-bind="submit: addItem">
+					  <fieldset>
+						<div class="input-append">
+							<input class="span4" data-bind="value: itemToAdd">
+							<button class="btn" type="submit">Go!</button>
+							</div>
+					  </fieldset>
+					</form>
+					<table class="table table-striped">
+						<thead>
+							<th class="span4"></th>
+						</thead>
+						<tbody data-bind="foreach: items">
+							<tr>
+								<td data-bind="text: $data"></td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+				<div class="span2"></div>
+			</div>
+		</div>
+    </body>
+	<footer>
+	<script type="text/javascript">
+		var SimpleListModel = function(items) {
+			this.items = ko.observableArray(items);
+			this.itemToAdd = ko.observable("");
+			this.addItem = function() {
+				if (this.itemToAdd() != "") {
+					this.items.push(this.itemToAdd()); // Adds the item. Writing to the "items" observableArray causes any associated UI to update.
+					this.itemToAdd(""); // Clears the text box, because it's bound to the "itemToAdd" observable
+				}
+			}.bind(this);  // Ensure that "this" is always this view model
+		};
+ 
+		ko.applyBindings(new SimpleListModel(["Alpha", "Beta", "Gamma"]));
+	</script>
+	</footer>
+</html>
